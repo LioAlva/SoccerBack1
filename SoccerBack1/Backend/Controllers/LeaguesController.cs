@@ -1,29 +1,35 @@
-﻿using Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using Domain;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     public class LeaguesController : Controller
     {
         private DataContext db = new DataContext();
 
         // GET: Leagues
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Leagues.ToList());
+            return View(await db.Leagues.ToListAsync());
         }
 
         // GET: Leagues/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = db.Leagues.Find(id);
+            League league = await db.Leagues.FindAsync(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -42,12 +48,12 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LeagueId,Name,Logo")] League league)
+        public async Task<ActionResult> Create([Bind(Include = "LeagueId,Name,Logo")] League league)
         {
             if (ModelState.IsValid)
             {
                 db.Leagues.Add(league);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -55,13 +61,13 @@ namespace Backend.Controllers
         }
 
         // GET: Leagues/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = db.Leagues.Find(id);
+            League league = await db.Leagues.FindAsync(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -74,25 +80,25 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LeagueId,Name,Logo")] League league)
+        public async Task<ActionResult> Edit([Bind(Include = "LeagueId,Name,Logo")] League league)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(league).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(league);
         }
 
         // GET: Leagues/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = db.Leagues.Find(id);
+            League league = await db.Leagues.FindAsync(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -103,11 +109,11 @@ namespace Backend.Controllers
         // POST: Leagues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            League league = db.Leagues.Find(id);
+            League league = await db.Leagues.FindAsync(id);
             db.Leagues.Remove(league);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
