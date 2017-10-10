@@ -22,5 +22,6 @@ namespace Domain
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
 
+        public virtual ICollection<Team> Teams { get; set; }
     }
 }

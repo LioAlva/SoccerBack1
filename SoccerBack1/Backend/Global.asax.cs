@@ -1,4 +1,6 @@
-﻿using IdentitySample.Models;
+﻿
+using Backend.Migrations;
+using Backend.Models;
 using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -12,6 +14,8 @@ namespace IdentitySample
     {
         protected void Application_Start()
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContextLocal, Configuration>());
+            //3 configurando las migracionesautomaticas
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
