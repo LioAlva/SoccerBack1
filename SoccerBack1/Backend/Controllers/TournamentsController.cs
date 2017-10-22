@@ -7,158 +7,113 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Domain;
 using Backend.Models;
-using Backend.Helpers;
+using Domain;
 
 namespace Backend.Controllers
 {
     [Authorize]
-    public class LeaguesController : Controller
+    public class TournamentsController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
 
-        // GET: Leagues
+        // GET: Tournaments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Leagues.ToListAsync());
+            return View(await db.Tournaments.ToListAsync());
         }
 
-        // GET: Leagues/Details/5
+        // GET: Tournaments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = await db.Leagues.FindAsync(id);
-            if (league == null)
+            Tournament tournament = await db.Tournaments.FindAsync(id);
+            if (tournament == null)
             {
                 return HttpNotFound();
             }
-            return View(league);
+            return View(tournament);
         }
 
-        // GET: Leagues/Create
+        // GET: Tournaments/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Leagues/Create
+        // POST: Tournaments/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(LeagueView view)
+        public async Task<ActionResult> Create([Bind(Include = "TournamentId,Name,Logo")] Tournament tournament)
         {
-
             if (ModelState.IsValid)
             {
-                var pic = string.Empty;
-                var folder = "~/Content/Logos";
-                if (view!=null) {
-
-                    pic = FilesHelper.UploadPhoto(view.LogoFile,folder);
-                    pic = string.Format("{0}/{1}",folder,pic);
-                }
-
-                var league = ToLeague(view);
-                league.Logo = pic;
-                db.Leagues.Add(league);
-
+                db.Tournaments.Add(tournament);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(view);
+            return View(tournament);
         }
 
-        private League ToLeague(LeagueView view)
-        {
-            return new League
-            {
-                LeagueId = view.LeagueId,
-                Name = view.Name,
-                Logo=view.Logo,
-                Teams=view.Teams
-            };
-        }
-
-        // GET: Leagues/Edit/5
+        // GET: Tournaments/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = await db.Leagues.FindAsync(id);
-            if (league == null)
+            Tournament tournament = await db.Tournaments.FindAsync(id);
+            if (tournament == null)
             {
                 return HttpNotFound();
             }
-            var view = ToView(league); 
-            return View(view);
+            return View(tournament);
         }
 
-        private LeagueView ToView(League league)
-        {
-            return new LeagueView
-            {
-                LeagueId=league.LeagueId ,
-                Name = league.Name,
-                Logo = league.Logo,
-                Teams = league.Teams
-            };
-        }
-
-        // POST: Leagues/Edit/5
+        // POST: Tournaments/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(LeagueView view)
+        public async Task<ActionResult> Edit([Bind(Include = "TournamentId,Name,Logo")] Tournament tournament)
         {
             if (ModelState.IsValid)
             {
-                var pic =view.Logo;
-                var folder = "~/Content/Logos";
-                if (view != null)
-                {
-                    pic = FilesHelper.UploadPhoto(view.LogoFile, folder);
-                    pic = string.Format("{0}/{1}", folder, pic);
-                }
-                var league = ToLeague(view);
-                league.Logo = pic;
-                db.Entry(league).State = EntityState.Modified;
+                db.Entry(tournament).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(view);
+            return View(tournament);
         }
 
-        // GET: Leagues/Delete/5
+        // GET: Tournaments/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = await db.Leagues.FindAsync(id);
-            if (league == null)
+            Tournament tournament = await db.Tournaments.FindAsync(id);
+            if (tournament == null)
             {
                 return HttpNotFound();
             }
-            return View(league);
+            return View(tournament);
         }
 
-        // POST: Leagues/Delete/5
+        // POST: Tournaments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            League league = await db.Leagues.FindAsync(id);
-            db.Leagues.Remove(league);
+            Tournament tournament = await db.Tournaments.FindAsync(id);
+            db.Tournaments.Remove(tournament);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

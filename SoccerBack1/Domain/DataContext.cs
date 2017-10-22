@@ -20,8 +20,10 @@ namespace Domain
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
-        public DbSet<League> Leagues { get; set; }
 
-        public System.Data.Entity.DbSet<Domain.Team> Teams { get; set; }
+        public DbSet<Domain.Tournament> Tournaments { get; set; }
+        public DbSet<TournamentGroup> TournamentGroups { get; set; }
+        public DbSet<League> Leagues { get; set; }
+        public DbSet<Domain.Team> Teams { get; set; }
     }
 }

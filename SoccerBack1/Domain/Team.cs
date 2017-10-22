@@ -22,7 +22,6 @@ namespace Domain
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
 
-
         [Required(ErrorMessage = "the field {0} is required")]
         [StringLength(3, ErrorMessage = "The lenght for  field {0} must be {1} characters", MinimumLength = 3)]
         [Index("Team_Initials_LegueId_Index", IsUnique = true, Order = 1)]

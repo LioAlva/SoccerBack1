@@ -11,6 +11,7 @@ using Domain;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     public class TeamsController : Controller
     {
         private DataContext db = new DataContext();

@@ -6,8 +6,8 @@ using System.Web;
 
 namespace Backend.Models
 {
-    public class DataContextLocal:DataContext
+    public class LeagueView:League
     {
-       
+        public HttpPostedFileBase LogoFile { get; set; }
     }
 }
