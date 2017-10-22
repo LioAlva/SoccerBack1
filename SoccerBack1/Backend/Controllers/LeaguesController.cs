@@ -57,7 +57,7 @@ namespace Backend.Controllers
             {
                 var pic = string.Empty;
                 var folder = "~/Content/Logos";
-                if (view!=null) {
+                if (view.LogoFile!=null) {
 
                     pic = FilesHelper.UploadPhoto(view.LogoFile,folder);
                     pic = string.Format("{0}/{1}",folder,pic);

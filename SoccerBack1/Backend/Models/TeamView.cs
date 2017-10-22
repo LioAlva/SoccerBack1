@@ -7,9 +7,9 @@ using System.Web;
 
 namespace Backend.Models
 {
-    public class LeagueView:League
+    public class TeamView:Team
     {
-        [Display(Name = "Logo")]
-        public HttpPostedFileBase LogoFile { get; set; }
+        [Display(Name="Logo")]
+        public HttpPostedFileBase LogoFile{ get; set; }
     }
 }
