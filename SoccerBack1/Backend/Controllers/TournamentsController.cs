@@ -147,7 +147,23 @@ namespace Backend.Controllers
         }
 
 
+   //aca no se que pasa un bag
+        public async Task<ActionResult> DeleteGroup(int? id)
+        {
+            if (id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+            if (tournamentGroup==null)
+            {
+                return HttpNotFound();
+            }
+            db.TournamentGroups.Remove(tournamentGroup);
+            await db.SaveChangesAsync();
+            return RedirectToAction(string.Format("Details/{0}", tournamentGroup.TournamentId));
 
+        }
 
         /***************************************************/
 

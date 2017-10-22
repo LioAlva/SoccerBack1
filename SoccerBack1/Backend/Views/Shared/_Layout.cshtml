@@ -27,7 +27,6 @@
                     <li>@Html.ActionLink("Leagues", "Index", "Leagues")</li>
                     <li>@Html.ActionLink("Teams", "Index", "Teams")</li>
                     <li>@Html.ActionLink("Tournaments", "Index", "Tournaments")</li>
-                    <li>@Html.ActionLink("Groups", "Index", "TournamentGroups")</li>
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
                         <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>

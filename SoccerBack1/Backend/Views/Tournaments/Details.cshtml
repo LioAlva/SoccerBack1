@@ -60,7 +60,7 @@ else
                 <td>
                     @Html.ActionLink("Edit", "EditGroup",new { id = item.TournamentGroupId },new { @class = "btn btn-warning" }) |
                     @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
-                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?')" })
+                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
                 </td>
             </tr>
         }

@@ -194,7 +194,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
-    <Compile Include="Controllers\TournamentGroupsController.cs" />
     <Compile Include="Controllers\TournamentsController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Global.asax.cs">
@@ -297,11 +296,6 @@
     <Content Include="Views\Tournaments\Details.cshtml" />
     <Content Include="Views\Tournaments\Edit.cshtml" />
     <Content Include="Views\Tournaments\Index.cshtml" />
-    <Content Include="Views\TournamentGroups\Create.cshtml" />
-    <Content Include="Views\TournamentGroups\Delete.cshtml" />
-    <Content Include="Views\TournamentGroups\Details.cshtml" />
-    <Content Include="Views\TournamentGroups\Edit.cshtml" />
-    <Content Include="Views\TournamentGroups\Index.cshtml" />
     <Content Include="Views\Tournaments\CreateGroup.cshtml" />
     <Content Include="Views\Tournaments\EditGroup.cshtml" />
   </ItemGroup>
