@@ -33,7 +33,7 @@
 </div>
 <p>
     @Html.ActionLink("Edit Tornament", "Edit", new { id = Model.TournamentId },new { @class="btn btn-warning"}) |
-    @Html.ActionLink("Create Group", "Edit", new { id = Model.TournamentId },new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Create Group", "CreateGroup", new { id = Model.TournamentId },new { @class = "btn btn-primary" }) |
     @Html.ActionLink("Back to List", "Index",new { }, new { @class = "btn btn-success" })
 </p>
 
@@ -58,9 +58,9 @@ else
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditGroup", ,new { id = item.TournamentGroupId },new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Edit", "EditGroup",new { id = item.TournamentGroupId },new { @class = "btn btn-warning" }) |
                     @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
-                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?')" })
                 </td>
             </tr>
         }
