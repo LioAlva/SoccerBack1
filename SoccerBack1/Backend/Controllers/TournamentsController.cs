@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Backend.Models;
 using Domain;
+using Backend.Helpers;
 
 namespace Backend.Controllers
 {
@@ -31,11 +32,12 @@ namespace Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Tournament tournament = await db.Tournaments.FindAsync(id);
+            var view = ToTournamentView(tournament);
             if (tournament == null)
             {
                 return HttpNotFound();
             }
-            return View(tournament);
+            return View(view);
         }
 
         // GET: Tournaments/Create
@@ -49,18 +51,56 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TournamentId,Name,Logo")] Tournament tournament)
+        public async Task<ActionResult> Create(TournamentView view)
         {
             if (ModelState.IsValid)
             {
+                var pic = string.Empty;
+                var folder = "~/Content/Logos";
+                if (view.LogoFile != null)
+                {
+
+                    pic = FilesHelper.UploadPhoto(view.LogoFile, folder);
+                    pic = string.Format("{0}/{1}", folder, pic);
+                }
+
+                var tournament = ToTournament(view);
+                tournament.Logo = pic;
+
                 db.Tournaments.Add(tournament);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(tournament);
+            return View(view);
         }
 
+        private Tournament ToTournament(TournamentView view)
+        {
+            return new Tournament
+            {
+                TournamentId=view.TournamentId,
+                Dates=view.Dates,
+                IsActive=view.IsActive,
+                Logo=view.Logo,
+                Name=view.Name,
+                Order=view.Order,
+            };
+        }
+
+
+        private TournamentView ToTournamentView(Tournament tournament)
+        {
+            return new TournamentView
+            {
+                TournamentId = tournament.TournamentId,
+                Dates = tournament.Dates,
+                IsActive = tournament.IsActive,
+                Logo = tournament.Logo,
+                Name = tournament.Name,
+                Order = tournament.Order
+            };
+        }
         // GET: Tournaments/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -69,11 +109,13 @@ namespace Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Tournament tournament = await db.Tournaments.FindAsync(id);
+            var view = ToTournamentView(tournament);
+
             if (tournament == null)
             {
                 return HttpNotFound();
             }
-            return View(tournament);
+            return View(view);
         }
 
         // POST: Tournaments/Edit/5
@@ -81,15 +123,27 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "TournamentId,Name,Logo")] Tournament tournament)
+        public async Task<ActionResult> Edit(TournamentView view)
         {
             if (ModelState.IsValid)
             {
+                var pic = string.Empty;
+                var folder = "~/Content/Logos";
+                if (view.LogoFile != null)
+                {
+
+                    pic = FilesHelper.UploadPhoto(view.LogoFile, folder);
+                    pic = string.Format("{0}/{1}", folder, pic);
+                }
+
+                var tournament = ToTournament(view);
+                tournament.Logo = pic;
                 db.Entry(tournament).State = EntityState.Modified;
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(tournament);
+            return View(view);
         }
 
         // GET: Tournaments/Delete/5
