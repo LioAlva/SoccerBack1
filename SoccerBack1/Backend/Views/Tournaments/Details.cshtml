@@ -32,8 +32,38 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TournamentId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit Tornament", "Edit", new { id = Model.TournamentId },new { @class="btn btn-warning"}) |
+    @Html.ActionLink("Create Group", "Edit", new { id = Model.TournamentId },new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Back to List", "Index",new { }, new { @class = "btn btn-success" })
 </p>
 
 <h4>Groups</h4>
+@if (Model.Groups.Count==0) {
+    <h5>No groups registered</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Groups.FirstOrDefault().Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Groups.OrderBy(g=>g.Name))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditGroup", ,new { id = item.TournamentGroupId },new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

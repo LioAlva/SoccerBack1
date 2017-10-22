@@ -85,6 +85,7 @@ namespace Backend.Controllers
                 Logo=view.Logo,
                 Name=view.Name,
                 Order=view.Order,
+                Groups=view.Groups
             };
         }
 
@@ -98,7 +99,8 @@ namespace Backend.Controllers
                 IsActive = tournament.IsActive,
                 Logo = tournament.Logo,
                 Name = tournament.Name,
-                Order = tournament.Order
+                Order = tournament.Order,
+                Groups=tournament.Groups
             };
         }
         // GET: Tournaments/Edit/5
