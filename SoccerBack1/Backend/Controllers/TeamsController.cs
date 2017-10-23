@@ -97,7 +97,7 @@ namespace Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Team team = await db.Teams.FindAsync(id);
-            var view = ToTeam(team);
+            var view = ToView(team);
             if (team == null)
             {
                 return HttpNotFound();
@@ -106,7 +106,7 @@ namespace Backend.Controllers
             return View(view);
         }
 
-        private TeamView ToTeam(Team team)
+        private TeamView ToView(Team team)
         {
             return new TeamView
             {
