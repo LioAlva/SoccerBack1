@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.Logo)
         </dt>
 
-        <dd>  
+        <dd>
             @if (!string.IsNullOrEmpty(Model.Logo))
             {
                 <img src="@Url.Content(Model.Logo)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
@@ -32,14 +32,21 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit Tornament", "Edit", new { id = Model.TournamentId },new { @class="btn btn-warning"}) |
-    @Html.ActionLink("Create Group", "CreateGroup", new { id = Model.TournamentId },new { @class = "btn btn-primary" }) |
-    @Html.ActionLink("Back to List", "Index",new { }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Edit Tornament", "Edit", new { id = Model.TournamentId }, new { @class = "btn btn-warning" }) |
+    @Html.ActionLink("Create Group", "CreateGroup", new { id = Model.TournamentId }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Create Date", "CreateDates", new { id = Model.TournamentId }, new { @class = "btn btn-default" }) |
+    @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
 </p>
 
-<h4>Groups</h4>
-@if (Model.Groups.Count==0) {
-    <h5>No groups registered</h5>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+        <h4>Groups</h4>
+        @if (Model.Groups.Count == 0)
+    {
+        <h5>No groups registered</h5>
 }
 else
 {
@@ -51,19 +58,58 @@ else
             <th></th>
         </tr>
 
-        @foreach (var item in Model.Groups.OrderBy(g=>g.Name))
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditGroup",new { id = item.TournamentGroupId },new { @class = "btn btn-warning" }) |
-                    @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
-                    @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
-                </td>
-            </tr>
-        }
+        @foreach (var item in Model.Groups.OrderBy(g => g.Name))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
+            </td>
+        </tr>
+}
 
     </table>
 }
+    </div>
+
+
+    <div class="col-md-6">
+
+        <h4>Dates</h4>
+        @if (Model.Dates.Count == 0)
+    {
+        <h5>No dates registered yet</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Dates.OrderBy(g => g.Name))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditDates", new { id = item.DateId }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Details", "DetailsDates", new { id = item.DateId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Delete", "DeleteDates", new { id = item.DateId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
+            </td>
+        </tr>
+}
+
+    </table>
+}
+    </div>
+    
+</div>

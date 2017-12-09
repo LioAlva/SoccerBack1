@@ -23,8 +23,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Order)
         </th>
-        <th>#</th>
-        <th></th>
+        <th>#Groups</th>
+        <th>#Dates</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -34,9 +34,9 @@
         </td>
         <td>
             @if (!string.IsNullOrEmpty(item.Logo))
-            {
-                <img src="@Url.Content(item.Logo)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
-            }
+        {
+            <img src="@Url.Content(item.Logo)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+    }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsActive)
@@ -48,9 +48,12 @@
             @Html.DisplayFor(modelItem => item.Groups.Count)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TournamentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TournamentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TournamentId })
+            @Html.DisplayFor(modelItem => item.Dates.Count)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TournamentId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TournamentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.TournamentId })
         </td>
     </tr>
 }

@@ -24,6 +24,98 @@ namespace Backend.Controllers
             return View(await db.Tournaments.ToListAsync());
         }
 
+        //*******************************************Dates
+        // GET: Dates/Create
+        public async Task<ActionResult> CreateDates(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tournament tournament = await db.Tournaments.FindAsync(id);
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+            var view = new Date
+            {
+                TournamentId=tournament.TournamentId
+            };
+            return View(view);
+        }
+
+        // POST: Dates/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateDates(Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Dates.Add(date);
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("Details/{0}", date.TournamentId));
+            }
+            return View(date);
+        }
+
+        // GET: Dates/Edit/5
+        public async Task<ActionResult> EditDates(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Date date = await db.Dates.FindAsync(id);
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+            
+            return View(date);
+        }
+
+        // POST: Dates/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditDates(Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(date).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("Details/{0}", date.TournamentId));
+
+            }
+            return View(date);
+        }
+
+        // GET: Dates/Edit/5
+        public async Task<ActionResult> DeleteDates(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Date date = await db.Dates.FindAsync(id);
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+            db.Dates.Remove(date);
+            await db.SaveChangesAsync();
+            return RedirectToAction(string.Format("Details/{0}", date.TournamentId));
+        }
+
+
+
+
+
+        //END DATES**********************************************
+
         // GET: Tournaments/Details/5
         public async Task<ActionResult> Details(int? id)
         {

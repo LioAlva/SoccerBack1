@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -189,6 +190,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -286,11 +288,6 @@
     <Content Include="Views\Leagues\Details.cshtml" />
     <Content Include="Views\Leagues\Edit.cshtml" />
     <Content Include="Views\Leagues\Index.cshtml" />
-    <Content Include="Views\Teams\Create.cshtml" />
-    <Content Include="Views\Teams\Delete.cshtml" />
-    <Content Include="Views\Teams\Details.cshtml" />
-    <Content Include="Views\Teams\Edit.cshtml" />
-    <Content Include="Views\Teams\Index.cshtml" />
     <Content Include="Views\Tournaments\Create.cshtml" />
     <Content Include="Views\Tournaments\Delete.cshtml" />
     <Content Include="Views\Tournaments\Details.cshtml" />
@@ -299,6 +296,14 @@
     <Content Include="Views\Tournaments\CreateGroup.cshtml" />
     <Content Include="Views\Tournaments\EditGroup.cshtml" />
     <Content Include="Views\Leagues\CreateTeam.cshtml" />
+    <Content Include="Views\Leagues\EditTeam.cshtml" />
+    <Content Include="Views\Dates\Create.cshtml" />
+    <Content Include="Views\Dates\Delete.cshtml" />
+    <Content Include="Views\Dates\Details.cshtml" />
+    <Content Include="Views\Dates\Edit.cshtml" />
+    <Content Include="Views\Dates\Index.cshtml" />
+    <Content Include="Views\Tournaments\CreateDates.cshtml" />
+    <Content Include="Views\Tournaments\EditDates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
