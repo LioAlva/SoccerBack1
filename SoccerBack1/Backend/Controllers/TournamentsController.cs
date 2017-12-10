@@ -139,6 +139,85 @@ namespace Backend.Controllers
         }
         //END DATES**********************************************
 
+
+        /************** TournamentTeams *****************/
+        // GET: TournamentTeams/Edit/5
+        public async Task<ActionResult> EditTeam(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentTeam = await db.TournamentTeams.FindAsync(id);
+            if (tournamentTeam == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(t => t.Name), "LeagueId", "Name",tournamentTeam.Team.LeagueId);
+            ViewBag.TeamId = new SelectList(db.Teams.Where(l => l.LeagueId ==tournamentTeam.Team.LeagueId).OrderBy(t => t.Name), "TeamId", "Name",tournamentTeam.Team.TeamId);
+            var view = ToView(tournamentTeam);
+            return View(view);
+        }
+
+        private TournamentTeamView ToView(TournamentTeam tournamentTeam)
+        {
+            return new TournamentTeamView {
+                AgainstGoals=tournamentTeam.AgainstGoals,
+                FavorGoals= tournamentTeam.FavorGoals,
+                LeagueId = tournamentTeam.Team.LeagueId,
+                MatchesLost = tournamentTeam.MatchesLost,
+                MatchesPlayed= tournamentTeam.MatchesPlayed,
+                MatchesWon = tournamentTeam.MatchesWon,
+                Points = tournamentTeam.Points,
+                Position = tournamentTeam.Position,
+                Team = tournamentTeam.Team,
+                TeamId = tournamentTeam.TeamId,
+                TournamentGroup = tournamentTeam.TournamentGroup,
+                TournamentGroupId = tournamentTeam.TournamentGroupId,
+                TournamentTeamId = tournamentTeam.TournamentTeamId
+            };
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditTeam(TournamentTeamView view)
+        {
+            if (ModelState.IsValid)
+            {
+                var tournamentTeam = ToTournamentTeam(view);
+                db.Entry(tournamentTeam).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("DetailsGroup/{0}", tournamentTeam.TournamentGroupId));
+
+            }
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(t => t.Name), "LeagueId", "Name", view.LeagueId);
+            ViewBag.TeamId = new SelectList(db.Teams.Where(l => l.LeagueId == view.LeagueId).OrderBy(t => t.Name), "TeamId", "Name", view.TeamId);
+
+            return View(view);
+        }
+
+        private TournamentTeam ToTournamentTeam(TournamentTeamView view)
+        {
+            return new TournamentTeam {
+                AgainstGoals = view.AgainstGoals,
+                FavorGoals = view.FavorGoals,
+                MatchesLost = view.MatchesLost,
+                MatchesPlayed = view.MatchesPlayed,
+                MatchesWon = view.MatchesWon,
+                Points = view.Points,
+                Position = view.Position,
+                Team = view.Team,
+                TeamId = view.TeamId,
+                TournamentGroup = view.TournamentGroup,
+                TournamentGroupId = view.TournamentGroupId,
+                TournamentTeamId = view.TournamentTeamId
+
+            };
+        }
+
+
+
+
         /********************** GROUP *****************************/
         // GET: Dates/Edit/5
         public async Task<ActionResult> DetailsGroup(int? id)
@@ -187,11 +266,10 @@ namespace Backend.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name");
-            var view = new TournamentTeam
-            {
-                TournamentGroupId = tournamentGroups.TournamentGroupId
-            };
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(t=>t.Name),"LeagueId","Name");
+            ViewBag.TeamId = new SelectList(db.Teams.Where(l=>l.LeagueId==db.Leagues.FirstOrDefault().LeagueId).OrderBy(t => t.Name), "TeamId", "Name");
+
+            var view = new TournamentTeamView{TournamentGroupId = tournamentGroups.TournamentGroupId};
             return View(view);
         }
 
@@ -204,12 +282,13 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+              
                 db.TournamentTeams.Add(tournamentTeam);
                 await db.SaveChangesAsync();
                 return RedirectToAction(string.Format("DetailsGroup/{0}",tournamentTeam.TournamentGroupId));
             }
-            ViewBag.teamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name",tournamentTeam.TeamId);
+            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name", tournamentTeam.TeamId);
+            
             return View(tournamentTeam);
         }
 

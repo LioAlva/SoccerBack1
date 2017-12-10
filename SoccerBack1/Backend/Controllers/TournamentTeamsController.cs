@@ -51,7 +51,7 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TournamentTeamId,TournamentGroupId,TeamId,MatchesPlayed,MatchesWon,MatchesLost,MatchesTied,FavorGoals,AgainstGoals,Points,Position")] TournamentTeam tournamentTeam)
+        public async Task<ActionResult> Create(TournamentTeam tournamentTeam)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +62,7 @@ namespace Backend.Controllers
 
             ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name", tournamentTeam.TeamId);
             ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name", tournamentTeam.TournamentGroupId);
+
             return View(tournamentTeam);
         }
 
