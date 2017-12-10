@@ -197,6 +197,7 @@
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TournamentsController.cs" />
+    <Compile Include="Controllers\TournamentTeamsController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -304,6 +305,13 @@
     <Content Include="Views\Dates\Index.cshtml" />
     <Content Include="Views\Tournaments\CreateDates.cshtml" />
     <Content Include="Views\Tournaments\EditDates.cshtml" />
+    <Content Include="Views\TournamentTeams\Create.cshtml" />
+    <Content Include="Views\TournamentTeams\Delete.cshtml" />
+    <Content Include="Views\TournamentTeams\Details.cshtml" />
+    <Content Include="Views\TournamentTeams\Edit.cshtml" />
+    <Content Include="Views\TournamentTeams\Index.cshtml" />
+    <Content Include="Views\Tournaments\DetailsGroup.cshtml" />
+    <Content Include="Views\Tournaments\CreateTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

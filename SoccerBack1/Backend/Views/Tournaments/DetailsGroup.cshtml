@@ -1,0 +1,104 @@
+﻿@model Domain.TournamentGroup
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Tournament: @Model.Tournament.Name</h2>
+<h2>Group: @Model.Name</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "CreateTeam", new { id = Model.TournamentGroupId }, new { @class = "btn btn-primary " })
+    @Html.ActionLink("Back to List Tournament", "Details", new { id = Model.TournamentId }, new { @class = "btn btn-warning" })
+
+</p>
+@if (Model.TournamentTeams.Count == 0)
+{
+    <h4>No teams addesd yeat</h4>
+}
+else
+{
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Team.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().TournamentGroup.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesPlayed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesWon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesLost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesTied)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().FavorGoals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().AgainstGoals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Points)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Position)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.TournamentTeams.OrderBy(t=>t.Points))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Team.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TournamentGroup.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesPlayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesWon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesLost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesTied)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FavorGoals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgainstGoals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditTeam", new { id = item.TournamentTeamId },new { @class="btn btn-warning"}) |
+                    @Html.ActionLink("Delete", "DeleteTeam", new { id = item.TournamentTeamId }, new { @class = "btn btn-primary",onclick="return confirm('Areyou sure to delete this record?');" })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+}
+
+
+

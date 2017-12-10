@@ -14,10 +14,6 @@
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Logo)
         </dt>
@@ -45,71 +41,74 @@
 
         <h4>Groups</h4>
         @if (Model.Groups.Count == 0)
-    {
-        <h5>No groups registered</h5>
-}
-else
-{
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Groups.FirstOrDefault().Name)
-            </th>
-            <th></th>
-        </tr>
+        {
+        <h5>No groups registered yeat</h5>
+        }
+        else
+         {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Groups.FirstOrDefault().Name)
+                    </th>
+                    <th># Teams</th>
+                </tr>
 
-        @foreach (var item in Model.Groups.OrderBy(g => g.Name))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" }) |
-                @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
-                @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
-            </td>
-        </tr>
-}
+                @foreach (var item in Model.Groups.OrderBy(g => g.Name))
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TournamentTeams.Count)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" }) |
+                        @Html.ActionLink("Details", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Delete", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
+                    </td>
+                </tr>
+                }
 
-    </table>
-}
-    </div>
+            </table>
+        }
+            </div>
 
 
-    <div class="col-md-6">
+            <div class="col-md-6">
 
-        <h4>Dates</h4>
-        @if (Model.Dates.Count == 0)
-    {
-        <h5>No dates registered yet</h5>
-}
-else
-{
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
-            </th>
-            <th></th>
-        </tr>
+                <h4>Dates</h4>
+                @if (Model.Dates.Count == 0)
+            {
+                <h5>No dates registered yet</h5>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
+                    </th>
+                    <th></th>
+                </tr>
 
-        @foreach (var item in Model.Dates.OrderBy(g => g.Name))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditDates", new { id = item.DateId }, new { @class = "btn btn-warning" }) |
-                @Html.ActionLink("Details", "DetailsDates", new { id = item.DateId }, new { @class = "btn btn-primary" }) |
-                @Html.ActionLink("Delete", "DeleteDates", new { id = item.DateId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
-            </td>
-        </tr>
-}
+                @foreach (var item in Model.Dates.OrderBy(g => g.Name))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditDates", new { id = item.DateId }, new { @class = "btn btn-warning" }) |
+                        @Html.ActionLink("Details", "DetailsDates", new { id = item.DateId }, new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Delete", "DeleteDates", new { id = item.DateId }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure to delete this record?');" })
+                    </td>
+                </tr>
+        }
 
-    </table>
-}
-    </div>
+            </table>
+        }
+            </div>
     
-</div>
+        </div>

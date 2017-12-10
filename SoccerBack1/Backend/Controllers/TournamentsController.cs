@@ -24,6 +24,34 @@ namespace Backend.Controllers
             return View(await db.Tournaments.ToListAsync());
         }
 
+        //******************************************* TournamentTeams
+
+        // GET: TournamentTeams/Create
+        public ActionResult Create()
+        {
+            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name");
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(TournamentTeam tournamentTeam)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TournamentTeams.Add(tournamentTeam);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name", tournamentTeam.TeamId);
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name", tournamentTeam.TournamentGroupId);
+            return View(tournamentTeam);
+        }
+
+
+
         //*******************************************Dates
         // GET: Dates/Create
         public async Task<ActionResult> CreateDates(int? id)
@@ -109,12 +137,26 @@ namespace Backend.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction(string.Format("Details/{0}", date.TournamentId));
         }
-
-
-
-
-
         //END DATES**********************************************
+
+        /********************** GROUP *****************************/
+        // GET: Dates/Edit/5
+        public async Task<ActionResult> DetailsGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentGroups = await db.TournamentGroups.FindAsync(id);
+            if (tournamentGroups== null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(tournamentGroups);
+            }
+
+
 
         // GET: Tournaments/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -133,9 +175,24 @@ namespace Backend.Controllers
         }
 
         // GET: Tournaments/Create
-        public ActionResult Create()
+        public async Task<ActionResult> CreateTeam(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentGroups = await db.TournamentGroups.FindAsync(id);
+
+            if (tournamentGroups == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name");
+            var view = new TournamentTeam
+            {
+                TournamentGroupId = tournamentGroups.TournamentGroupId
+            };
+            return View(view);
         }
 
         // POST: Tournaments/Create
@@ -143,28 +200,17 @@ namespace Backend.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(TournamentView view)
+        public async Task<ActionResult> CreateTeam(TournamentTeam tournamentTeam)
         {
             if (ModelState.IsValid)
             {
-                var pic = string.Empty;
-                var folder = "~/Content/Logos";
-                if (view.LogoFile != null)
-                {
-
-                    pic = FilesHelper.UploadPhoto(view.LogoFile, folder);
-                    pic = string.Format("{0}/{1}", folder, pic);
-                }
-
-                var tournament = ToTournament(view);
-                tournament.Logo = pic;
-
-                db.Tournaments.Add(tournament);
+                
+                db.TournamentTeams.Add(tournamentTeam);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(string.Format("DetailsGroup/{0}",tournamentTeam.TournamentGroupId));
             }
-
-            return View(view);
+            ViewBag.teamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name",tournamentTeam.TeamId);
+            return View(tournamentTeam);
         }
 
         /************************GROUPS******************/
