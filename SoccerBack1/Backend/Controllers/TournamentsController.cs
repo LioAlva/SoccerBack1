@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Backend.Helpers;
+using Backend.Models;
+using Domain;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Backend.Models;
-using Domain;
-using Backend.Helpers;
 
 namespace Backend.Controllers
 {
@@ -142,6 +139,24 @@ namespace Backend.Controllers
 
         /************** TournamentTeams *****************/
         // GET: TournamentTeams/Edit/5
+        public async Task<ActionResult> DeleteTeam(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentTeam = await db.TournamentTeams.FindAsync(id);
+            if (tournamentTeam == null)
+            {
+                return HttpNotFound();
+            }
+            db.TournamentTeams.Remove(tournamentTeam);
+            await db.SaveChangesAsync();
+            return RedirectToAction(string.Format("DetailsGroup/{0}", tournamentTeam.TournamentGroupId));
+
+        }
+
+
         public async Task<ActionResult> EditTeam(int? id)
         {
             if (id == null)
@@ -215,9 +230,6 @@ namespace Backend.Controllers
             };
         }
 
-
-
-
         /********************** GROUP *****************************/
         // GET: Dates/Edit/5
         public async Task<ActionResult> DetailsGroup(int? id)
@@ -273,23 +285,21 @@ namespace Backend.Controllers
             return View(view);
         }
 
-        // POST: Tournaments/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTeam(TournamentTeam tournamentTeam)
+        public async Task<ActionResult> CreateTeam(TournamentTeamView view)
         {
             if (ModelState.IsValid)
             {
-              
+                var tournamentTeam = ToTournamentTeam(view);
                 db.TournamentTeams.Add(tournamentTeam);
                 await db.SaveChangesAsync();
                 return RedirectToAction(string.Format("DetailsGroup/{0}",tournamentTeam.TournamentGroupId));
             }
-            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t=>t.Name),"TeamId","Name", tournamentTeam.TeamId);
-            
-            return View(tournamentTeam);
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(t => t.Name), "LeagueId", "Name", view.LeagueId);
+            ViewBag.TeamId = new SelectList(db.Teams.Where(l => l.LeagueId == view.LeagueId).OrderBy(t => t.Name), "TeamId", "Name", view.TeamId);
+
+            return View(view);
         }
 
         /************************GROUPS******************/
