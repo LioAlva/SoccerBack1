@@ -19,6 +19,7 @@ namespace Domain
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Configurations.Add(new UsersMap());
         }
 
         public DbSet<Domain.Tournament> Tournaments { get; set; }

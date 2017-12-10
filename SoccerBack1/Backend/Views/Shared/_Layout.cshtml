@@ -26,11 +26,14 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Leagues", "Index", "Leagues")</li>
                     <li>@Html.ActionLink("Tournaments", "Index", "Tournaments")</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
 
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
-                        <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                        <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
-                    }
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+                <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
+                <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
+}
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

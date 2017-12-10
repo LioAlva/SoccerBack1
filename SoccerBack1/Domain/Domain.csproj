@@ -61,6 +61,7 @@
     <Compile Include="TournamentGroup.cs" />
     <Compile Include="TournamentTeam.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UsersMap.cs" />
     <Compile Include="UserType.cs" />
   </ItemGroup>
   <ItemGroup>
